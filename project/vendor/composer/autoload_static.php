@@ -33,7 +33,7 @@ class ComposerStaticInit7a1b54e48635c499cb094fa4d504ab3a
         array (
             'App\\Models\\' => 11,
             'App\\Controllers\\' => 16,
-            'Api\\' => 4,
+            'Api\\Model\\' => 10,
         ),
     );
 
@@ -70,7 +70,7 @@ class ComposerStaticInit7a1b54e48635c499cb094fa4d504ab3a
         array (
             0 => __DIR__ . '/../..' . '/website/app/controllers',
         ),
-        'Api\\' => 
+        'Api\\Model\\' => 
         array (
             0 => __DIR__ . '/../..' . '/api/model',
         ),

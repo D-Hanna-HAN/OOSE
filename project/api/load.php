@@ -1,7 +1,7 @@
 <?php
 
-require_once "db/Config.php";
-$config = new config;
+require_once "model/Config.php";
+$config = new \Api\Model\config;
 $db = $config->getDb();
 foreach (glob("get/*.php") as $filename)
 {

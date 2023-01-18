@@ -1,43 +1,28 @@
 <?php
-namespace App\Models; 
-class Person
+namespace App\Models;
+
+class Person extends AbstractModel
 {
-    private $id;
-    private $age;
-    private $firstname;
-    private $lastname;
-    private $initials;
-    private $address;
-    
-	/**
-	 * @return mixed
-	 */
-	public function getId() {
-		return $this->id;
-	}
-	
-	/**
-	 * @param mixed $id 
-	 * @return self
-	 */
-	public function setId($id): self {
-		$this->id = $id;
-		return $this;
-	}
+	protected $id;
+	protected $firstname;
+	protected $lastname;
+	protected $birthday;
+
+
 
 	/**
 	 * @return mixed
 	 */
-	public function getFirstname() {
-		return $this->firstname;
+	public function getBirthday() {
+		return $this->birthday;
 	}
 	
 	/**
-	 * @param mixed $firstname 
+	 * @param mixed $birthday 
 	 * @return self
 	 */
-	public function setFirstname($firstname): self {
-		$this->firstname = $firstname;
+	public function setBirthday($birthday): self {
+		$this->birthday = $birthday;
 		return $this;
 	}
 
@@ -60,32 +45,32 @@ class Person
 	/**
 	 * @return mixed
 	 */
-	public function getInitials() {
-		return $this->initials;
+	public function getFirstname() {
+		return $this->firstname;
 	}
 	
 	/**
-	 * @param mixed $initials 
+	 * @param mixed $firstname 
 	 * @return self
 	 */
-	public function setInitials($initials): self {
-		$this->initials = $initials;
+	public function setFirstname($firstname): self {
+		$this->firstname = $firstname;
 		return $this;
 	}
 
 	/**
 	 * @return mixed
 	 */
-	public function getAddress() {
-		return $this->address;
+	public function getId() {
+		return $this->id;
 	}
 	
 	/**
-	 * @param mixed $address 
+	 * @param mixed $id 
 	 * @return self
 	 */
-	public function setAddress($address): self {
-		$this->address = $address;
+	public function setId($id): self {
+		$this->id = $id;
 		return $this;
 	}
 }

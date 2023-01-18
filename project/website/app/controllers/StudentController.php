@@ -12,6 +12,6 @@ class StudentController
     public static function findById($id){
         $api = new ApiController;
         $request = ApiController::formatRequest('Student', 'getById', ['id' => $id]);
-        Return $api->createPostRequest($request);
+        Return $api->createGetRequest($request, '\App\Models\Student');
     }
-}
+}   

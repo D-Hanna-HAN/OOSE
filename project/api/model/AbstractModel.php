@@ -1,5 +1,6 @@
 <?php
 
+namespace Api\Model;
 abstract class AbstractModel
 {
     public static function getAll($limit = null, $startIndex = 0)
@@ -7,6 +8,7 @@ abstract class AbstractModel
         global $db;
 
         $table = get_called_class()::$table_name;
+        
         $limitQuery = "";
         if (!empty($limit)) {
             $limitQuery = " LIMIT :startIndex, :limit";
@@ -18,12 +20,15 @@ abstract class AbstractModel
             $stmt->bindParam(":limit", $limit);
         }
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_CLASS, get_called_class());
+        return $stmt->fetchAll(\PDO::FETCH_CLASS, get_called_class());
     }
     
     public static function getById($id)
     {
         global $db;
+        
+        $config = new \Api\Model\config;
+        $db = $config->getDb();
         $table = get_called_class()::$table_name;
         $query = "SELECT * FROM " . $table . " WHERE id= :id";
         $stmt = $db->prepare($query);
@@ -51,7 +56,7 @@ abstract class AbstractModel
         }
         $stmt->execute($parameters);
         if ($returnType == "all") {
-            return $stmt->fetchAll(PDO::FETCH_CLASS, get_called_class());
+            return $stmt->fetchAll(\PDO::FETCH_CLASS, get_called_class());
         } else {
             return $stmt->fetchObject(get_called_class());
         }
@@ -60,7 +65,6 @@ abstract class AbstractModel
     public static function create($arr)
     {
         global $db;
-
         $table = get_called_class()::$table_name;
         $values = "";
         $keys = "";
@@ -75,6 +79,42 @@ abstract class AbstractModel
         }
         $query = " INSERT INTO " . $table . " (" . $keys . ") VALUES (" . $values . ")";
         $stmt = $db->prepare($query);
+        foreach ($arr as $key => $value) {
+            $stmt->bindValue(':' . $key, $value);
+        }
+        $stmt->execute();
+        return $stmt->fetchObject(get_called_class());
+    }
+
+    public static function delete($id)
+    {
+        global $db;
+        $table = get_called_class()::$table_name;
+        $query = "DELETE FROM " . $table . " WHERE id= :id";
+        $stmt = $db->prepare($query);
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+        return $stmt->fetchObject(get_called_class());
+    }
+
+    public static function update($id, $arr)
+    {
+        global $db;
+
+        $table = get_called_class()::$table_name;
+        $values = "";
+        $keys = "";
+        foreach ($arr as $key => $value) {
+            $comma = ", ";
+
+            if ($key === array_key_last($arr)) {
+                $comma = "";
+            }
+            $values .= $key ." = :" . $key . $comma;
+        }
+        $query = " UPDATE " . $table . " SET ". $values ." WHERE id = :id";
+        $stmt = $db->prepare($query);
+        $stmt->bindValue(':id', $id);
         foreach ($arr as $key => $value) {
             $stmt->bindValue(':' . $key, $value);
         }

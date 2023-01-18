@@ -1,6 +1,7 @@
 <?php
 include "load.php";
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    $_REQUEST["class"] = "\\Api\\Model\\" . $_REQUEST["class"];
     if (class_exists($_REQUEST["class"]) && method_exists($_REQUEST["class"], $_REQUEST["function"])) {
         if (isset($_REQUEST["params"]) && !empty($_REQUEST["params"])) {
             echo json_encode($_REQUEST["class"]::{$_REQUEST["function"]}(extract($_REQUEST["params"])));
@@ -12,9 +13,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         echo FunctionNotFound($_REQUEST["class"] . " " . $_REQUEST["function"]);
     }
 } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $_REQUEST["class"] = "\\Api\\Model\\" . $_REQUEST["class"];
     if (class_exists($_REQUEST["class"]) && method_exists($_REQUEST["class"], $_REQUEST["function"])) {
         if (isset($_REQUEST["params"]) && !empty($_REQUEST["params"])) {
-            echo json_encode($_REQUEST["class"]::{$_REQUEST["function"]}(extract($_REQUEST["params"])));
+            echo json_encode($_REQUEST["class"]::{$_REQUEST["function"]}($_REQUEST["params"]));
         }else{
             echo json_encode($_REQUEST["class"]::{$_REQUEST["function"]}());
         }

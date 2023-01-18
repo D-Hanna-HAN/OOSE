@@ -8,7 +8,7 @@
         "psr-4": {
             "App\\Models\\": "website\\app\\models",
             "App\\Controllers\\": "website\\app\\controllers",
-            "Api\\": "api\\model"
+            "Api\\Model\\": "api\\model"
         }
     }
 }

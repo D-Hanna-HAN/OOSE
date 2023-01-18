@@ -66,12 +66,12 @@ private static $installed = array (
     ),
     'nikic/php-parser' => 
     array (
-      'pretty_version' => 'v4.15.2',
-      'version' => '4.15.2.0',
+      'pretty_version' => 'v4.15.3',
+      'version' => '4.15.3.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'f59bbe44bf7d96f24f3e2b4ddc21cd52c1d2adbc',
+      'reference' => '570e980a201d8ed0236b0a62ddf2c9cbb2034039',
     ),
     'phar-io/manifest' => 
     array (
@@ -138,12 +138,12 @@ private static $installed = array (
     ),
     'phpunit/phpunit' => 
     array (
-      'pretty_version' => '9.5.27',
-      'version' => '9.5.27.0',
+      'pretty_version' => '9.5.28',
+      'version' => '9.5.28.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'a2bc7ffdca99f92d959b3f2270529334030bba38',
+      'reference' => '954ca3113a03bf780d22f07bf055d883ee04b65e',
     ),
     'sebastian/cli-parser' => 
     array (
