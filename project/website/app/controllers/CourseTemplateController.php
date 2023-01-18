@@ -10,4 +10,8 @@ class CourseTemplateController
         
 		\App\Models\CourseTemplate::create(['name' => $name, 'description' => $description, "created_by_schooladmin_id" => $id]);
     }
+
+    public static function getCourse($id){
+        return \App\Models\CourseTemplate::getById($id);
+    }
 }
