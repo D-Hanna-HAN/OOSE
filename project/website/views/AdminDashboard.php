@@ -2,7 +2,7 @@
 ?>
 <div class="container">
     <div class="row">
-        <h2>Welcome <?= $admin->getFirstname() ?></h2>
+        <h2>Welcome <?= $admin["firstname"] ?></h2>
     </div>
     <div class="row">
         <div class="col12">

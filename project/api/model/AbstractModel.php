@@ -8,14 +8,13 @@ abstract class AbstractModel
         global $db;
 
         $table = get_called_class()::$table_name;
-        
         $limitQuery = "";
-        if (!empty($limit)) {
+        if (!empty($limit) && $limit != "null") {
             $limitQuery = " LIMIT :startIndex, :limit";
         }
         $query = "SELECT * FROM " . $table . $limitQuery;
         $stmt = $db->prepare($query);
-        if (!empty($limit)) {
+        if (!empty($limit) && $limit != "null") {
             $stmt->bindParam(":startIndex", $startIndex);
             $stmt->bindParam(":limit", $limit);
         }
@@ -38,7 +37,7 @@ abstract class AbstractModel
     }
 
 
-    public static function getByArray($params, $returnType = "object")
+    public static function getByArray($params)
     {
         global $db;
         $table = get_called_class()::$table_name;
@@ -55,11 +54,7 @@ abstract class AbstractModel
             $parameters[":" . $key] = $value;
         }
         $stmt->execute($parameters);
-        if ($returnType == "all") {
             return $stmt->fetchAll(\PDO::FETCH_CLASS, get_called_class());
-        } else {
-            return $stmt->fetchObject(get_called_class());
-        }
     }
 
     public static function create($arr)
@@ -83,7 +78,7 @@ abstract class AbstractModel
             $stmt->bindValue(':' . $key, $value);
         }
         $stmt->execute();
-        return $stmt->fetchObject(get_called_class());
+        return $db->lastInsertId();
     }
 
     public static function delete($id)

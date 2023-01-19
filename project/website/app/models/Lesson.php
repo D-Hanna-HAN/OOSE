@@ -5,8 +5,10 @@ namespace App\Models;
 class Lesson extends AbstractModel
 {
     private int $id;
+	private string $name;
+	private string $description;
     private int $course_template_id;
-    private int $lesson_date;
+    private int $lesson_week;
     
 
 	/**
@@ -44,16 +46,16 @@ class Lesson extends AbstractModel
 	/**
 	 * @return int
 	 */
-	public function getLesson_date(): int {
-		return $this->lesson_date;
+	public function getLesson_week(): int {
+		return $this->lesson_week;
 	}
 	
 	/**
-	 * @param int $lesson_date 
+	 * @param int $lesson_week 
 	 * @return self
 	 */
-	public function setLesson_date(int $lesson_date): self {
-		$this->lesson_date = $lesson_date;
+	public function setLesson_week(int $lesson_week): self {
+		$this->lesson_week = $lesson_week;
 		return $this;
 	}
 }

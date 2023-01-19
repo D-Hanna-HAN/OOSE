@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models; 
-class ClassStudents extends AbstractModel
+class ClassStudent extends AbstractModel
 {
     private int $id;
     private int $class_id;

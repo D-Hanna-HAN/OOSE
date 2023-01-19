@@ -60,4 +60,10 @@ class LessonLearningpoint extends AbstractModel
         $this->learningpoint_id = $learningpoint_id;
         return $this;
     }
+
+    public static function deleteByLesson($lessonId)
+    {
+        $request = \App\Controllers\ApiController::formatRequest(substr(get_called_class(), strrpos(get_called_class(), '\\') + 1), 'deleteByLesson', ['lessonId' => $lessonId]);
+        return \App\Controllers\ApiController::createPostRequest($request);
+    }
 }

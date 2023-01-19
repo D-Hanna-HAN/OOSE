@@ -1,28 +1,33 @@
 <?php
 include "load.php";
+
+
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    $_REQUEST["class"] = "\\Api\\Model\\" . $_REQUEST["class"];
-    if (class_exists($_REQUEST["class"]) && method_exists($_REQUEST["class"], $_REQUEST["function"])) {
+    $class = "\\Api\\Model\\" . $_REQUEST["class"];
+    $function = $_REQUEST['function'];
+    if (class_exists($class) && method_exists($class, $function)) {
         if (isset($_REQUEST["params"]) && !empty($_REQUEST["params"])) {
-            echo json_encode($_REQUEST["class"]::{$_REQUEST["function"]}(extract($_REQUEST["params"])));
-        }else{
-            echo json_encode($_REQUEST["class"]::{$_REQUEST["function"]}());
+            echo json_encode(call_user_func_array("$class::$function", $_REQUEST["params"]));
+        } else {
+            echo json_encode(call_user_func("$class::$function"));
         }
 
     } else {
-        echo FunctionNotFound($_REQUEST["class"] . " " . $_REQUEST["function"]);
+        echo FunctionNotFound($class . " " . $function);
     }
+
 } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $_REQUEST["class"] = "\\Api\\Model\\" . $_REQUEST["class"];
-    if (class_exists($_REQUEST["class"]) && method_exists($_REQUEST["class"], $_REQUEST["function"])) {
+    $class = "\\Api\\Model\\" . $_REQUEST["class"];
+    $function = $_REQUEST['function'];
+    if (class_exists($class) && method_exists($class, $function)) {
         if (isset($_REQUEST["params"]) && !empty($_REQUEST["params"])) {
-            echo json_encode($_REQUEST["class"]::{$_REQUEST["function"]}($_REQUEST["params"]));
-        }else{
-            echo json_encode($_REQUEST["class"]::{$_REQUEST["function"]}());
+            echo json_encode(call_user_func_array("$class::$function", $_REQUEST["params"]));
+        } else {
+            echo json_encode(call_user_func("$class::$function"));
         }
 
     } else {
-        echo FunctionNotFound($_REQUEST["class"] . " " . $_REQUEST["function"]);
+        echo FunctionNotFound($class . " " . $function);
     }
 } else {
     echo InvalidRequest();

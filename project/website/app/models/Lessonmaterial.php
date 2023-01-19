@@ -8,6 +8,7 @@ class Lessonmaterial extends AbstractModel
     private string $file_name;
     private int $lesson_id;
 
+    public static $target_dir = "C:\\xampp\htdocs\schoolWebsites\OOSE\website\uploads\\";
 
     /**
      * @return int
