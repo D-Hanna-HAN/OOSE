@@ -1,14 +1,11 @@
 {
     "require": {
-        "symfony/routing": "^6.0",
-        "symfony/http-foundation": "^6.0"
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
-        },
-        "classmap": [
-            "app/"
-        ]
+            "App\\Models\\": "website\\app\\models",
+            "Api\\Model\\": "api\\model"
+        }
     }
 }
