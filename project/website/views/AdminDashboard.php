@@ -8,7 +8,7 @@
         <div class="col12">
             <a href="/<?= constant('URL_SUBFOLDER') ?>/courses/">courses</a>
             <a href="/<?= constant('URL_SUBFOLDER') ?>/classes/">classes</a>
-            <a href="/<?= constant('URL_SUBFOLDER') ?>/agenda/">agenda</a>
+            <a href="/<?= constant('URL_SUBFOLDER') ?>/students/">students</a>
         </div>
         <div class="col6">
 

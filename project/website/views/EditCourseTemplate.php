@@ -41,8 +41,6 @@
                                 <?= $learningpoint["description"] ?>
                             </td>
                             <td>
-                                <a href="/<?= constant('URL_SUBFOLDER') ?>/learningpoint/edit/<?= $learningpoint["id"] ?>"
-                                    class="btn btn-info">Edit</a>
                                 <a onclick="return confirm('Weet je zeker dat je deze learningpoint wilt verwijderen?')"
                                     href="/<?= constant('URL_SUBFOLDER') ?>/learningpoint/delete/<?= $courseTemplate["id"] ?>/<?= $learningpoint["id"] ?>"
                                     class='btn btn-danger'>Delete</a>

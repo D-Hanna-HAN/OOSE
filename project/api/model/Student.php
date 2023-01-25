@@ -37,9 +37,9 @@ class Student extends AbstractModel
         C.id AS 'classId'
     FROM
         student S
-    INNER JOIN class_student CS ON
+    LEFT JOIN class_student CS ON
         CS.student_id = S.id
-        INNER JOIN class C ON 
+        LEFT JOIN class C ON 
         C.id = CS.class_id 
     WHERE
         S.id = :studentId";

@@ -9,7 +9,7 @@ class CourseTemplateController
     {
         $id = $_SESSION["authId"];
 
-        \App\Models\CourseTemplate::create(['name' => $name, 'description' => $description, "created_by_schooladmin_id" => $id]);
+        return \App\Models\CourseTemplate::create(['name' => $name, 'description' => $description, "created_by_schooladmin_id" => $id]);
     }
 
     public static function getCourse($id)

@@ -17,7 +17,7 @@
                     <input name="class" type="text" class="form-control" id="class" readonly placeholder="class"
                         value="<?= $student["name"] ?>">
                 </div>
-                <button type="submit" class="btn btn-primary">edit template</button>
+                <button type="submit" class="btn btn-primary">edit student</button>
             </form>
         </div>
     </div>

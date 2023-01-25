@@ -48,7 +48,9 @@ class PageController
 
             $request = Request::createFromGlobals();
             if ($request->request->get('name') && $request->request->get('description')) {
-                CourseTemplateController::createTemplate($request->request->get('name'), $request->request->get('description'));
+                $tempId = CourseTemplateController::createTemplate($request->request->get('name'), $request->request->get('description'));
+
+                $this->redirect($routes, 'CourseEdit', $tempId);
             }
             require_once APP_ROOT . '\views\CreateCourseTemplate.php';
         } else {
@@ -59,14 +61,18 @@ class PageController
     public function CourseTemplateEditAction(RouteCollection $routes, $id)
     {
         if (PersonController::isLoggedInAs('admin')) {
-            $request = Request::createFromGlobals();
-            if ($request->request->get('name') && $request->request->get('description')) {
-                \App\Models\CourseTemplate::update($id, ["name" => $request->request->get('name'), "description" => $request->request->get('description')]);
+            if (!$course = \App\Models\Course::getByArray(["course_template_id" => $id])) {
+                $request = Request::createFromGlobals();
+                if ($request->request->get('name') && $request->request->get('description')) {
+                    \App\Models\CourseTemplate::update($id, ["name" => $request->request->get('name'), "description" => $request->request->get('description')]);
+                }
+                $courseTemplate = CourseTemplateController::getCourse($id);
+                $lessons = \App\Models\Lesson::getByArray(['course_template_id' => $id]);
+                $learningpoints = \App\Models\Learningpoint::getByArray(['course_template_id' => $id]);
+                require_once APP_ROOT . '\views\EditCourseTemplate.php';
+            } else {
+                $this->redirect($routes, 'EditCourse', $course[0]["id"]);
             }
-            $courseTemplate = CourseTemplateController::getCourse($id);
-            $lessons = \App\Models\Lesson::getByArray(['course_template_id' => $id]);
-            $learningpoints = \App\Models\Learningpoint::getByArray(['course_template_id' => $id]);
-            require_once APP_ROOT . '\views\EditCourseTemplate.php';
         } else {
             $this->redirect($routes, 'Homepage');
         }
@@ -74,18 +80,31 @@ class PageController
 
     public function CourseTemplateDeleteAction(RouteCollection $routes, $id)
     {
-        // if (PersonController::isLoggedInAs('admin')) {
-        //     $request = Request::createFromGlobals();
-        //     if ($request->request->get('name') && $request->request->get('description')) {
-        //         \App\Models\CourseTemplate::update($id, ["name" =>$request->request->get('name'), "description" => $request->request->get('description')]);
-        //     }
-        //     $courseTemplate = CourseTemplateController::getCourse($id);
-        //     $lessons = \App\Models\Lesson::getByArray(['course_template_id' => $id]);
-        //     $learningpoints = \App\Models\Learningpoint::getByArray(['course_template_id' => $id]);
-        //     require_once APP_ROOT . '\views\EditCourseTemplate.php';
-        // } else {
-        //     $this->redirect($routes, 'Homepage');
-        // }
+        if (PersonController::isLoggedInAs('admin')) {
+            $courseTemplate = CourseTemplateController::getCourse($id);
+            if (!\App\Models\Course::getByArray(["course_template_id" => $courseTemplate["id"]])) {
+                $lessons = \App\Models\Lesson::getByArray(['course_template_id' => $id]);
+                if ($lessons) {
+                    foreach ($lessons as $lesson) {
+                        $lesPoints = \App\Models\LessonLearningpoint::getByArray(["lesson_id" => $lesson["id"]]);
+                        foreach ($lesPoints as $lesPoint) {
+                            \App\Models\lessonLearningpoint::delete($lesPoint["id"]);
+                        }
+                        \App\Models\Lesson::delete($lesson["id"]);
+                    }
+                }
+                $learningpoints = \App\Models\Learningpoint::getByArray(['course_template_id' => $id]);
+                if ($learningpoints) {
+                    foreach ($learningpoints as $point) {
+                        \App\Models\Learningpoint::delete($point["id"]);
+                    }
+                }
+                \App\Models\CourseTemplate::delete($courseTemplate["id"]);
+            }
+            $this->redirect($routes, 'Courses');
+        } else {
+            $this->redirect($routes, 'Homepage');
+        }
     }
 
     public function courseListAction(RouteCollection $routes)
@@ -147,7 +166,8 @@ class PageController
         if (PersonController::isLoggedInAs('admin')) {
 
             $request = Request::createFromGlobals();
-            if ($request->request->get('name') && $request->request->get('description') && $request->request->get('date') && $request->request->get('typeExam')) {
+            var_dump($request->request->all());
+            if ($request->request->get('name') && $request->request->get('description') && $request->request->get('date') && ($request->request->get('typeExam') || (int) $request->request->get('typeExam') == 0)) {
                 \App\Models\Exam::create(['course_id' => $courseId, "name" => $request->request->get('name'), 'description' => $request->request->get('description'), 'date' => $request->request->get('date'), 'type_exam' => $request->request->get('typeExam')]);
 
                 $this->redirect($routes, 'EditCourse', $courseId);
@@ -163,8 +183,14 @@ class PageController
     {
         if (PersonController::isLoggedInAs('admin')) {
             $request = Request::createFromGlobals();
-            if ($request->request->get('name') && $request->request->get('description') && is_array($request->request->all()["learningpoints"]) && $request->request->get('week')) {
-                LessonController::createLesson($request->request->get('name'), $request->request->get('description'), $request->request->all()["learningpoints"], $request->request->get('week'), $templateId);
+            if ($request->request->get('name') && $request->request->get('description') && $request->request->get('week')) {
+
+                if (!isset($request->request->all()["learningpoints"])) {
+                    LessonController::createLesson($request->request->get('name'), $request->request->get('description'), $request->request->get('week'), $templateId);
+                } else {
+
+                    LessonController::createLesson($request->request->get('name'), $request->request->get('description'), $request->request->get('week'), $templateId, $request->request->all()["learningpoints"]);
+                }
                 $this->redirect($routes, 'EditCourseTemplate', $templateId);
             }
             $learningpoints = \App\Models\Learningpoint::getByArray(['course_template_id' => $templateId]);
@@ -275,7 +301,7 @@ class PageController
             $request = Request::createFromGlobals();
             if ($request->request->get('name') && $request->request->get('startyear') && is_array($request->request->all()["students"])) {
                 ClassController::createClass($request->request->get('name'), $request->request->get('startyear'), $request->request->all()["students"]);
-                $this->redirect($routes, 'classes');
+                $this->redirect($routes, 'Classes');
             }
             $students = \App\Models\Student::getAll();
             require_once APP_ROOT . '\views\CreateClass.php';
@@ -289,7 +315,7 @@ class PageController
         if (PersonController::isLoggedInAs('admin')) {
             $request = Request::createFromGlobals();
             if ($request->request->get('firstname') && $request->request->get('lastname')) {
-                ClassController::createClass($request->request->get('name'), $request->request->get('startyear'), $request->request->all()["students"]);
+                \App\Models\student::update($studentId, ["firstname" => $request->request->get('firstname'), "lastname" => $request->request->get('lastname')]);
                 // $this->redirect($routes, 'classes');
             }
             if ($request->request->get('grade') && $request->request->get('examId')) {
@@ -299,7 +325,7 @@ class PageController
                 } else {
                     \App\Models\Grade::create(['grade' => $request->request->get('grade'), 'student_id' => $studentId, 'exam_id' => $request->request->get('examId')]);
                 }
-                // $this->redirect($routes, 'classes');
+                $this->redirect($routes, 'classes');
             }
             $student = \App\Models\Student::getStudentInfo($studentId);
             $exams = \App\Models\Exam::getExamsAndGrades($studentId);
@@ -308,7 +334,29 @@ class PageController
             $this->redirect($routes, 'Homepage');
         }
     }
+    public function StudentCreateAction(RouteCollection $routes)
+    {
+        if (PersonController::isLoggedInAs('admin')) {
+            $request = Request::createFromGlobals();
+            if ($request->request->get('firstname') && $request->request->get('lastname') && $request->request->get('birthday')) {
+                \App\Models\Student::create(["firstname" => $request->request->get('firstname'), "lastname" => $request->request->get('lastname'), "birthday" => $request->request->get('birthday')]);
+                $this->redirect($routes, 'students');
+            }
+            require_once APP_ROOT . '\views\CreateStudent.php';
+        } else {
+            $this->redirect($routes, 'Homepage');
+        }
+    }
 
+    public function StudentListAction(RouteCollection $routes)
+    {
+        if (PersonController::isLoggedInAs('admin')) {
+            $students = \App\Models\Student::getAll();
+            require_once APP_ROOT . '\views\StudentList.php';
+        } else {
+            $this->redirect($routes, 'Homepage');
+        }
+    }
     public function StudentGradesAction(RouteCollection $routes)
     {
         if (PersonController::isLoggedInAs('student')) {
@@ -349,7 +397,7 @@ class PageController
         if (PersonController::isLoggedInAs('student')) {
             $lesson = \App\Models\Lesson::getById($lessonId);
             $learningpoints = \App\Models\Learningpoint::getLessonLearningpoints($lessonId);
-          
+
             $files = \App\Models\Lessonmaterial::getByArray(['lesson_id' => $lessonId]);
             $fileBaseUrl = \App\Models\LessonMaterial::$target_dir;
             require_once APP_ROOT . '\views\ViewLesson.php';

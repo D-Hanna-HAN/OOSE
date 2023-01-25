@@ -23,6 +23,8 @@ if (isset($_SESSION["authType"]) && $_SESSION["authType"] == "student") {
 
     //student routes
     $routes->add('StudentEdit', new Route(constant('URL_SUBFOLDER') . '/student/edit/{studentId}', array('controller' => 'PageController', 'method' => 'StudentEditAction'), array('studentId' => '[0-9]+')));
+    $routes->add('StudentCreate', new Route(constant('URL_SUBFOLDER') . '/student/create/', array('controller' => 'PageController', 'method' => 'StudentCreateAction'), array()));
+    $routes->add('students', new Route(constant('URL_SUBFOLDER') . '/students/', array('controller' => 'PageController', 'method' => 'StudentListAction')));
 
 
     // file routes

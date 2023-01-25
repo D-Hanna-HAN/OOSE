@@ -5,14 +5,16 @@ use Symfony\Component\Routing\RouteCollection;
 
 class LessonController
 {
-  public static function createLesson($name, $description, $learningpoints, $week, $templateId)
+  public static function createLesson($name, $description, $week, $templateId, $learningpoints = [])
   {
 
     $lessonid = \App\Models\Lesson::create(['name' => $name, 'description' => $description, 'lesson_week' => $week, 'course_template_id' => $templateId]);
-    foreach ($learningpoints as $point) {
-      \App\Models\LessonLearningpoint::create(['lesson_id' => $lessonid, 'learningpoint_id' => $point]);
+    if ($learningpoints) {
+      foreach ($learningpoints as $point) {
+        \App\Models\LessonLearningpoint::create(['lesson_id' => $lessonid, 'learningpoint_id' => $point]);
+      }
     }
-    return;
+    return $lessonid;
   }
 
   public static function editLesson($name, $description, $learningpoints, $week, $lessonId)

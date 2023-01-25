@@ -64,10 +64,10 @@
                                         <?= $file["file_name"]; ?>
                                     </td>
                                     <td>
-                                        <a target="_blank" href="" class='btn btn-primary'>download</a>
+                                        <a target="" href="/<?= constant('URL_SUBFOLDER') ?>/download/<?= $lesson["id"] . "/" . $file["file_name"] ?>/false" class='btn btn-primary'>download</a>
                                     </td>
                                     <td>
-                                        <a href="/file/download/pdf/<?= $file["file_name"] ?>"
+                                        <a href="/<?= constant('URL_SUBFOLDER') ?>/download/<?= $lesson["id"] . "/" .  $file["file_name"] ?>/pdf"
                                             class='btn btn-primary'>download</a>
                                     </td>
                                     <td>

@@ -13,14 +13,13 @@
     <div class="">
         <div class="card mt-5">
             <div class="card-header">
-                <h2>All classes</h2>
-                <a href="/<?= constant('URL_SUBFOLDER') ?>/class/create/">Create new class</a>
+                <h2>All students</h2>
             </div>
             <div class="card-body">
                 <table class="table table-bordered">
                     <tr>
-                        <th>name</th>
-                        <th>schoolyear</th>
+                        <th>firstname</th>
+                        <th>lastname</th>
 
                     </tr>
                     <?php foreach ($students as $student): ?>

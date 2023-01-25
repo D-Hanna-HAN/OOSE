@@ -4,13 +4,13 @@
             <form method="POST" action="">
                 <div class="form-group">
                     <label for="name">name</label>
-                    <input name="name" type="text" class="form-control" id="name" placeholder="Enter name of the course">
+                    <input name="name" type="text" class="form-control" id="name" placeholder="Enter name of the learningpoint">
                 </div>
                 <div class="form-group">
                     <label for="description">description</label>
                     <input name="description" type="text" class="form-control" id="description" placeholder="Description">
                 </div>
-                <button type="submit" class="btn btn-primary">Create template</button>
+                <button type="submit" class="btn btn-primary">Create learningpoint</button>
             </form>
         </div>
 
