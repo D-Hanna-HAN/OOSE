@@ -6,6 +6,10 @@ abstract class AbstractModel
     public static function getAll($limit = null, $startIndex = 0)
     {
         global $db;
+        if(!$db){
+            $config = new \Api\Model\config;
+            $db = $config->getDb();
+        }
 
         $table = get_called_class()::$table_name;
         $limitQuery = "";
@@ -25,21 +29,26 @@ abstract class AbstractModel
     public static function getById($id)
     {
         global $db;
-        
-        $config = new \Api\Model\config;
-        $db = $config->getDb();
+        if(!$db){
+            $config = new \Api\Model\config;
+            $db = $config->getDb();
+        }
         $table = get_called_class()::$table_name;
         $query = "SELECT * FROM " . $table . " WHERE id= :id";
         $stmt = $db->prepare($query);
         $stmt->bindValue(':id', $id);
         $stmt->execute();
-        return $stmt->fetchObject(get_called_class());
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
 
     public static function getByArray($params)
     {
         global $db;
+        if(!$db){
+            $config = new \Api\Model\config;
+            $db = $config->getDb();
+        }
         $table = get_called_class()::$table_name;
         $whereStmt = "";
         foreach ($params as $key => $value) {
@@ -60,6 +69,10 @@ abstract class AbstractModel
     public static function create($arr)
     {
         global $db;
+        if(!$db){
+            $config = new \Api\Model\config;
+            $db = $config->getDb();
+        }
         $table = get_called_class()::$table_name;
         $values = "";
         $keys = "";
@@ -84,6 +97,10 @@ abstract class AbstractModel
     public static function delete($id)
     {
         global $db;
+        if(!$db){
+            $config = new \Api\Model\config;
+            $db = $config->getDb();
+        }
         $table = get_called_class()::$table_name;
         $query = "DELETE FROM " . $table . " WHERE id= :id";
         $stmt = $db->prepare($query);
@@ -95,6 +112,10 @@ abstract class AbstractModel
     public static function update($id, $arr)
     {
         global $db;
+        if(!$db){
+            $config = new \Api\Model\config;
+            $db = $config->getDb();
+        }
 
         $table = get_called_class()::$table_name;
         $values = "";

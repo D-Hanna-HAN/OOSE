@@ -1,1 +1,1 @@
-{"version":1,"defects":{"ApiTest::testPersonUpdate":3},"times":{"ApiTest::testPersonUpdate":0.184}}
+{"version":1,"defects":{"ApiTest::testPersonUpdate":4,"ApiTest::testGetPerson":3,"WebsiteTest::testGetStudent":3,"ApiTest::testPersonCreate":4,"WebsiteTest::testCreateInvalidTemplate":3},"times":{"ApiTest::testPersonUpdate":0.004,"ApiTest::testGetPerson":0.008,"ApiTest::testPersonCreate":0.002,"WebsiteTest::testGetStudent":0.013,"WebsiteTest::testCreateTemplate":0.021,"WebsiteTest::testCreateInvalidTemplate":0.258,"WebsiteTest::testCreateValidTemplate":0.34}}

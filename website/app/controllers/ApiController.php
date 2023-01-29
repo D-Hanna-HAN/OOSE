@@ -27,7 +27,7 @@ class ApiController
         );
         $context = stream_context_create($options);
         $resp = file_get_contents(apiController::$url . "?" . http_build_query($request), false, $context);
-        // echo $resp;
+        // echo $resp;  
         if ($returnType == "array") {
             return json_decode($resp, true);
 

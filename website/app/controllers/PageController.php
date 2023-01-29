@@ -50,7 +50,7 @@ class PageController
             if ($request->request->get('name') && $request->request->get('description')) {
                 $tempId = CourseTemplateController::createTemplate($request->request->get('name'), $request->request->get('description'));
 
-                $this->redirect($routes, 'CourseEdit', $tempId);
+                $this->redirect($routes, 'EditCourseTemplate', $tempId);
             }
             require_once APP_ROOT . '\views\CreateCourseTemplate.php';
         } else {
@@ -86,11 +86,8 @@ class PageController
                 $lessons = \App\Models\Lesson::getByArray(['course_template_id' => $id]);
                 if ($lessons) {
                     foreach ($lessons as $lesson) {
-                        $lesPoints = \App\Models\LessonLearningpoint::getByArray(["lesson_id" => $lesson["id"]]);
-                        foreach ($lesPoints as $lesPoint) {
-                            \App\Models\lessonLearningpoint::delete($lesPoint["id"]);
-                        }
-                        \App\Models\Lesson::delete($lesson["id"]);
+                        LessonController::deleteLesson($lesson["id"]);
+
                     }
                 }
                 $learningpoints = \App\Models\Learningpoint::getByArray(['course_template_id' => $id]);
@@ -166,7 +163,6 @@ class PageController
         if (PersonController::isLoggedInAs('admin')) {
 
             $request = Request::createFromGlobals();
-            var_dump($request->request->all());
             if ($request->request->get('name') && $request->request->get('description') && $request->request->get('date') && ($request->request->get('typeExam') || (int) $request->request->get('typeExam') == 0)) {
                 \App\Models\Exam::create(['course_id' => $courseId, "name" => $request->request->get('name'), 'description' => $request->request->get('description'), 'date' => $request->request->get('date'), 'type_exam' => $request->request->get('typeExam')]);
 
@@ -219,10 +215,6 @@ class PageController
             $request = Request::createFromGlobals();
             if ($request->request->get('name') && $request->request->get('description') && is_array($request->request->all()["learningpoints"]) && $request->request->get('week')) {
                 LessonController::editLesson($request->request->get('name'), $request->request->get('description'), $request->request->all()["learningpoints"], $request->request->get('week'), $lesson["id"]);
-                var_dump($request->request->all()["learningpoints"]);
-                if ($request->request->get('upload_file')) {
-                    // LessonMaterialController::uploadFile($request->request->get('upload_file'));
-                }
                 $this->redirect($routes, 'EditCourseTemplate', $lesson["course_template_id"]);
             }
 

@@ -14,15 +14,5 @@ class ClassController
     return;
   }
 
-  public static function editClass($name, $description, $learningpoints, $week, $lessonId)
-  {
-
-  }
-
-
-  public static function deleteClass($id)
-  {
-
-  }
 
 }

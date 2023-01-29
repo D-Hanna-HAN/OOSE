@@ -62,7 +62,7 @@ class Student extends AbstractModel
         INNER JOIN course C ON
             C.course_template_id = L.course_template_id
         INNER JOIN class_student CS ON
-            CS.class_id = C.id
+            CS.class_id = C.class_id
         WHERE
             CS.student_id = :student_id
         UNION

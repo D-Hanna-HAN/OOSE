@@ -34,11 +34,7 @@ class FileController
         $this->filename = $filename . '.pdf';
         return $this;
     }
-
     
-
-
-
 	/**
 	 * @return string
 	 */

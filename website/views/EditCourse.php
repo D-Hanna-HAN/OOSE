@@ -115,14 +115,7 @@
                             </td>
                             <td>
                                 <?= $exam["date"] ?>
-                            </td>
-                            <td>
-                                <a href="/<?= constant('URL_SUBFOLDER') ?>/lesson/edit/<?= $lesson["id"] ?>"
-                                    class="btn btn-info">Edit</a>
-                                <a onclick="return confirm('Weet je zeker dat je deze learningpoint wilt verwijderen?')"
-                                    href="/<?= constant('URL_SUBFOLDER') ?>/lesson/delete/<?= $courseTemplate["id"] ?>/<?= $lesson["id"] ?>"
-                                    class='btn btn-danger'>Delete</a>
-                            </td>
+                            </td>   
                         </tr>
                         <?php
                     endforeach;
