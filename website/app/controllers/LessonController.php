@@ -5,6 +5,7 @@ use Symfony\Component\Routing\RouteCollection;
 
 class LessonController
 {
+  //creates a lesson and ads additional learningpoints to that lesson
   public static function createLesson($name, $description, $week, $templateId, $learningpoints = [])
   {
 
@@ -17,6 +18,7 @@ class LessonController
     return $lessonid;
   }
 
+  //edits a lesson and updates the learningpoints
   public static function editLesson($name, $description, $learningpoints, $week, $lessonId)
   {
 
@@ -30,6 +32,7 @@ class LessonController
   }
 
 
+  //deletes a lesson 
   public static function deleteLesson($id)
   {
 

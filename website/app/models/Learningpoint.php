@@ -101,6 +101,7 @@ class Learningpoint extends AbstractModel
 		return $this;
 	}
 
+	//gets all learningpoints that are connected to a lesson
 	public static function getLessonLearningpoints($lessonId)
 	{
 		$request = \App\Controllers\ApiController::formatRequest(substr(get_called_class(), strrpos(get_called_class(), '\\') + 1), 'getLessonLearningpoints', ['lessonId' => $lessonId]);

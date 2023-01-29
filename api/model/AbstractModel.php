@@ -1,12 +1,14 @@
 <?php
 
 namespace Api\Model;
+
 abstract class AbstractModel
 {
+    //this function gets all rows of a given class, $limit parameter restricts the amount of rows in the output, $startIndex parameter indicates how many rows to skip before getting rows
     public static function getAll($limit = null, $startIndex = 0)
     {
         global $db;
-        if(!$db){
+        if (!$db) {
             $config = new \Api\Model\config;
             $db = $config->getDb();
         }
@@ -25,11 +27,12 @@ abstract class AbstractModel
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_CLASS, get_called_class());
     }
-    
+
+    //gets a row from the database from a given class, $id parameter indicates which row
     public static function getById($id)
     {
         global $db;
-        if(!$db){
+        if (!$db) {
             $config = new \Api\Model\config;
             $db = $config->getDb();
         }
@@ -41,11 +44,11 @@ abstract class AbstractModel
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
-
+    //getByArray gets rows from the database for a given class, $params is used as $key => $value where $key is the column name and value the search parameter
     public static function getByArray($params)
     {
         global $db;
-        if(!$db){
+        if (!$db) {
             $config = new \Api\Model\config;
             $db = $config->getDb();
         }
@@ -63,13 +66,14 @@ abstract class AbstractModel
             $parameters[":" . $key] = $value;
         }
         $stmt->execute($parameters);
-            return $stmt->fetchAll(\PDO::FETCH_CLASS, get_called_class());
+        return $stmt->fetchAll(\PDO::FETCH_CLASS, get_called_class());
     }
 
+    //create function creates a row in the database, $arr is used as $key => value where $key is the column name and value the inserted value
     public static function create($arr)
     {
         global $db;
-        if(!$db){
+        if (!$db) {
             $config = new \Api\Model\config;
             $db = $config->getDb();
         }
@@ -94,10 +98,12 @@ abstract class AbstractModel
         return $db->lastInsertId();
     }
 
+
+    //delete function deletes a row from the database, $id indicates the row that needs to be deleted
     public static function delete($id)
     {
         global $db;
-        if(!$db){
+        if (!$db) {
             $config = new \Api\Model\config;
             $db = $config->getDb();
         }
@@ -109,10 +115,12 @@ abstract class AbstractModel
         return $stmt->fetchObject(get_called_class());
     }
 
+
+    //update function updates a row in the database,$id indicates the row that needs to be updated, $arr is used as $key => value where $key is the column name and value the updated value
     public static function update($id, $arr)
     {
         global $db;
-        if(!$db){
+        if (!$db) {
             $config = new \Api\Model\config;
             $db = $config->getDb();
         }
@@ -126,9 +134,9 @@ abstract class AbstractModel
             if ($key === array_key_last($arr)) {
                 $comma = "";
             }
-            $values .= $key ." = :" . $key . $comma;
+            $values .= $key . " = :" . $key . $comma;
         }
-        $query = " UPDATE " . $table . " SET ". $values ." WHERE id = :id";
+        $query = " UPDATE " . $table . " SET " . $values . " WHERE id = :id";
         $stmt = $db->prepare($query);
         $stmt->bindValue(':id', $id);
         foreach ($arr as $key => $value) {

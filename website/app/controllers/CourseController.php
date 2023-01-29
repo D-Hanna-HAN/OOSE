@@ -5,6 +5,7 @@ use Symfony\Component\Routing\RouteCollection;
 
 class CourseController
 {
+    //validates and creates the course
     public static function createCourse($templateId, $classId, $startDate, $creatorId)
     {
         if (CourseTemplateController::validTemplate($templateId)) {

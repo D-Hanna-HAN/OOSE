@@ -23,4 +23,20 @@ class ApiTest extends \PHPUnit\Framework\TestCase
         $this->assertIsNumeric($studentId);
     }
 
+    
+    public function testGetStudentInfo()
+    {
+        $student = Api\Model\Student::getStudentInfo(1);
+
+        $this->assertArrayHasKey('classId', $student);
+    }
+
+    
+    public function testGetExamsAndGrades()
+    {
+        $exams = Api\Model\Exam::getExamsAndGrades(1);
+
+        $this->assertIsArray($exams);
+    }
+
 }

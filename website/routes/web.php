@@ -5,12 +5,15 @@ use Symfony\Component\Routing\RouteCollection;
 
 // Routes system
 $routes = new RouteCollection();
+
+//general routes
 $routes->add('Homepage', new Route(constant('URL_SUBFOLDER') . '/', array('controller' => 'PageController', 'method' => 'indexAction'), array()));
 
 $routes->add('convertfile', new Route(constant('URL_SUBFOLDER') . '/convert/{filename}', array('controller' => 'FileController', 'method' => 'convertToPdf')));
 $routes->add('downloadFile', new Route(constant('URL_SUBFOLDER') . '/download/{lessonId}/{filename}/{convert}', array('controller' => 'LessonmaterialController', 'method' => 'downloadFileAction')));
 
 if (isset($_SESSION["authType"]) && $_SESSION["authType"] == "student") {
+    //student routes
     $routes->add('Dashboard', new Route(constant('URL_SUBFOLDER') . '/dashboard/', array('controller' => 'PageController', 'method' => 'studentDashboardAction')));
     $routes->add('Grades', new Route(constant('URL_SUBFOLDER') . '/grades/', array('controller' => 'PageController', 'method' => 'StudentGradesAction')));
     $routes->add('Courses', new Route(constant('URL_SUBFOLDER') . '/courses/', array('controller' => 'PageController', 'method' => 'StudentCoursesAction')));

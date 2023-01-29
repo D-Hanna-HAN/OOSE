@@ -5,6 +5,7 @@ use Symfony\Component\Routing\RouteCollection;
 
 class CourseTemplateController
 {
+    //creates a template
     public static function createTemplate($name, $description)
     {
         $id = $_SESSION["authId"];
@@ -12,11 +13,13 @@ class CourseTemplateController
         return \App\Models\CourseTemplate::create(['name' => $name, 'description' => $description, "created_by_schooladmin_id" => $id]);
     }
 
+    //gets the specified course template
     public static function getCourse($id)
     {
         return \App\Models\CourseTemplate::getById($id);
     }
 
+    //validates a template and return true if its valid and false if its invalid
     public static function validTemplate($templateId)
     {
         $template = \App\Models\CourseTemplate::getById($templateId);

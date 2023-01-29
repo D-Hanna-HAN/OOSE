@@ -5,12 +5,17 @@ class Student extends AbstractModel
 {
 
 
+    //indicates the table for this particular class
     public static string $table_name = "Student";
 
-
+    //gets all students that are in a particular class
     public static function getByClassId($classId)
     {
         global $db;
+        if (!$db) {
+            $config = new \Api\Model\config;
+            $db = $config->getDb();
+        }
         $query = "SELECT
         S.id,
         S.firstname,
@@ -26,9 +31,16 @@ class Student extends AbstractModel
         $stmt->execute();
         return $stmt->fetchAll();
     }
+
+    
+    //gets all info about a student
     public static function getStudentInfo($studentId)
     {
         global $db;
+        if (!$db) {
+            $config = new \Api\Model\config;
+            $db = $config->getDb();
+        }
         $query = "SELECT
         S.id,
         S.firstname,
@@ -48,8 +60,9 @@ class Student extends AbstractModel
         $stmt->execute();
         return $stmt->fetch();
     }
-
-    public static function getEventsById($studentId){
+    //gets all lessons and exams from a student
+    public static function getEventsById($studentId)
+    {
         global $db;
         $query = "SELECT
         L.id,

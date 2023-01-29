@@ -56,6 +56,7 @@ class Exam extends AbstractModel
 		return $this;
 	}
 
+	//gets all exams and grades of a student
     public static function getExamsAndGrades($studentId){
         
         $request = \App\Controllers\ApiController::formatRequest('Exam', 'getExamsAndGrades', ['studentId' =>$studentId]);

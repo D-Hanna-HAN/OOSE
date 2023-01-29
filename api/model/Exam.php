@@ -3,10 +3,16 @@ namespace Api\Model;
 class Exam extends AbstractModel{
     
     
+    //indicates the table for this particular class
     public static string $table_name = "exam";
 
+    //gets all exams and the registerd grades of a student
     public static function getExamsAndGrades($studentId){
         global $db;
+        if(!$db){
+            $config = new \Api\Model\config;
+            $db = $config->getDb();
+        }
         $query = "SELECT
         E.id,
         E.name,

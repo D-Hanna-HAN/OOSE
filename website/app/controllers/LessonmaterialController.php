@@ -5,7 +5,7 @@ use Symfony\Component\Routing\RouteCollection;
 
 class LessonMaterialController
 {
-
+    //uploads a file to the upload folder
     public static function uploadFileAction(RouteCollection $routes, $lessonId)
     {
         $file = basename($_FILES["upload_file"]["name"]);
@@ -20,6 +20,7 @@ class LessonMaterialController
         return;
     }
 
+    //downloads a file if it exist in the upload folder, it can also call the filecontroller to convert it to pdf if it needs to do that
     public static function downloadFileAction(routeCollection $routes, $lessonId, $filename, $convert = false)
     {
         $filename = \App\Models\LessonMaterial::$target_dir . $filename;

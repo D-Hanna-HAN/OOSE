@@ -3,11 +3,17 @@ namespace Api\Model;
 class Course extends AbstractModel{
     
     
+    //indicates the table for this particular class
     public static string $table_name = "course";
 
+    //get all the courses with info from course template
     public static function getCourses(){
         
         global $db;
+        if(!$db){
+            $config = new \Api\Model\config;
+            $db = $config->getDb();
+        }
         $query = "SELECT
         C.id,
         CT.name,
@@ -21,8 +27,13 @@ class Course extends AbstractModel{
         $stmt->execute();
         return $stmt->fetchAll();
     }
+    //gets the most recent course added to a particular class
     public static function getCurrentCourseByClassId($classId){
         global $db;
+        if(!$db){
+            $config = new \Api\Model\config;
+            $db = $config->getDb();
+        }
         $query = "SELECT
         C.id,
         CT.name,
@@ -38,8 +49,14 @@ class Course extends AbstractModel{
         $stmt->execute();
         return $stmt->fetch();
     }
+
+    //gets all the courses that are connected to a student
     public static function getCoursesByStudentId($studentId){
         global $db;
+        if(!$db){
+            $config = new \Api\Model\config;
+            $db = $config->getDb();
+        }
         $query = "SELECT
         C.id,
         CT.name,

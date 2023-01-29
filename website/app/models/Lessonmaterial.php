@@ -8,6 +8,7 @@ class Lessonmaterial extends AbstractModel
     private string $file_name;
     private int $lesson_id;
 
+    //directory to upload folder for all the files that are uploaded to the website
     public static $target_dir = "C:\\xampp\htdocs\schoolWebsites\OOSE\website\uploads\\";
 
     /**

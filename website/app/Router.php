@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Exception\NoConfigurationException;
 
 class Router
 {
+    //gets the current url and tries to match it to a existing route, if the route exists it wil call the controller and function connected to that routes 
     public function __invoke(RouteCollection $routes)
     {
         $context = new RequestContext();

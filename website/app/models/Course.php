@@ -72,18 +72,21 @@ class Course extends AbstractModel
 		$this->class_id = $class_id;
 		return $this;
 	}
+	//gets all courses
 	public static function getCourses(){
 		
         $request = \App\Controllers\ApiController::formatRequest(substr(get_called_class(), strrpos(get_called_class(), '\\') + 1), 'getCourses');
         return \App\Controllers\ApiController::createGetRequest($request);
 	}
 
+	//gets the most recent course of a class
 	public static function getCurrentCourseByClassId($classId){
 		
         $request = \App\Controllers\ApiController::formatRequest('Course', 'getCurrentCourseByClassId', ['classId' =>$classId]);
         Return \App\Controllers\ApiController::createGetRequest($request);
 	}
 
+	//gets all courses of a student
 	public static function getCoursesByStudentId($studentId){
 		
         $request = \App\Controllers\ApiController::formatRequest('Course', 'getCoursesByStudentId', ['studentId' =>$studentId]);

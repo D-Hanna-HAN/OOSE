@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PageController
 {
+    //index aka login page, user can login as a student or schooladmin on this page
     public function indexAction(RouteCollection $routes)
     {
         if (isset($_GET["type_login"])) {
@@ -20,6 +21,7 @@ class PageController
         require_once APP_ROOT . '\views\Login.php';
     }
 
+    //dashboard for the students, here they van navigate to the pages that are available to them
     public function studentDashboardAction(RouteCollection $routes)
     {
         if (PersonController::isLoggedInAs('student')) {
@@ -31,6 +33,7 @@ class PageController
         }
     }
 
+    //dashboard for the schooladmins, here they van navigate to the pages that are available to them
     public function adminDashboardAction(RouteCollection $routes)
     {
         if (PersonController::isLoggedInAs('admin')) {
@@ -42,6 +45,7 @@ class PageController
         }
     }
 
+    //here the admins can create a new course template
     public function CourseTemplateCreateAction(RouteCollection $routes)
     {
         if (PersonController::isLoggedInAs('admin')) {
@@ -58,6 +62,7 @@ class PageController
         }
     }
 
+    //here the admins can edit a template by adding a lessons and learningpoints
     public function CourseTemplateEditAction(RouteCollection $routes, $id)
     {
         if (PersonController::isLoggedInAs('admin')) {
@@ -78,6 +83,7 @@ class PageController
         }
     }
 
+    //this action deletes a coursetemplate if its not yet been activated
     public function CourseTemplateDeleteAction(RouteCollection $routes, $id)
     {
         if (PersonController::isLoggedInAs('admin')) {
@@ -104,6 +110,7 @@ class PageController
         }
     }
 
+    //this page displays a list of all template and active courses
     public function courseListAction(RouteCollection $routes)
     {
         if (PersonController::isLoggedInAs('admin')) {
@@ -116,6 +123,7 @@ class PageController
     }
 
 
+    //this page makes an active course out of a template
     public function CourseCreateAction(RouteCollection $routes)
     {
         if (PersonController::isLoggedInAs('admin')) {
@@ -136,6 +144,7 @@ class PageController
         }
     }
 
+    //in this page the admins can add, update and delete exams 
     public function CourseEditAction(RouteCollection $routes, $id)
     {
         if (PersonController::isLoggedInAs('admin')) {
@@ -158,6 +167,7 @@ class PageController
         }
     }
 
+    //this page creates a exam and connects it to a course
     public function ExamCreateAction(RouteCollection $routes, $courseId)
     {
         if (PersonController::isLoggedInAs('admin')) {
@@ -175,6 +185,7 @@ class PageController
         }
     }
 
+    //this page creates a lesson with learningpoints
     public function lessonCreateAction(RouteCollection $routes, $templateId)
     {
         if (PersonController::isLoggedInAs('admin')) {
@@ -198,6 +209,7 @@ class PageController
     }
 
 
+    //this page deletes a lesson and all conected learningpoints
     public function LessonDeleteAction(RouteCollection $routes, $templateId, $id)
     {
         if (PersonController::isLoggedInAs('admin')) {
@@ -208,6 +220,7 @@ class PageController
         }
     }
 
+    //this page edits a lesson and gives you the opportunity to add a learningpoint and or lessonmaterials
     public function lessonEditAction(RouteCollection $routes, $lessonId)
     {
         if (PersonController::isLoggedInAs('admin')) {
@@ -241,6 +254,7 @@ class PageController
     }
 
 
+    //in this page the admins can create a learningpoint that is connected to a course template
     public function learningpointCreateAction(RouteCollection $routes, $templateId)
     {
         if (PersonController::isLoggedInAs('admin')) {
@@ -255,6 +269,7 @@ class PageController
         }
     }
 
+    //delete a learningpoint
     public function LearningpointDeleteAction(RouteCollection $routes, $templateId, $id)
     {
         if (PersonController::isLoggedInAs('admin')) {
@@ -265,7 +280,7 @@ class PageController
         }
     }
 
-
+    //displays a list of all the classes
     public function ClassListAction(RouteCollection $routes)
     {
         if (PersonController::isLoggedInAs('admin')) {
@@ -276,6 +291,7 @@ class PageController
         }
     }
 
+    //displays the class info and all the connected students to a class
     public function ClassViewAction(RouteCollection $routes, $classId)
     {
         if (PersonController::isLoggedInAs('admin')) {
@@ -287,6 +303,7 @@ class PageController
         }
     }
 
+    //creates a new class with students
     public function ClassCreateAction(RouteCollection $routes)
     {
         if (PersonController::isLoggedInAs('admin')) {
@@ -302,6 +319,7 @@ class PageController
         }
     }
 
+    //this page edits a students name or adds/updates a exam grade
     public function StudentEditAction(RouteCollection $routes, $studentId)
     {
         if (PersonController::isLoggedInAs('admin')) {
@@ -326,6 +344,8 @@ class PageController
             $this->redirect($routes, 'Homepage');
         }
     }
+
+    //creates a student
     public function StudentCreateAction(RouteCollection $routes)
     {
         if (PersonController::isLoggedInAs('admin')) {
@@ -340,6 +360,7 @@ class PageController
         }
     }
 
+    //displays a list of all the students 
     public function StudentListAction(RouteCollection $routes)
     {
         if (PersonController::isLoggedInAs('admin')) {
@@ -349,6 +370,8 @@ class PageController
             $this->redirect($routes, 'Homepage');
         }
     }
+
+    //displays a list of all the grades of a student
     public function StudentGradesAction(RouteCollection $routes)
     {
         if (PersonController::isLoggedInAs('student')) {
@@ -359,6 +382,8 @@ class PageController
             $this->redirect($routes, 'Homepage');
         }
     }
+
+    //displays all the courses of a student 
     public function StudentCoursesAction(RouteCollection $routes)
     {
         if (PersonController::isLoggedInAs('student')) {
@@ -369,6 +394,8 @@ class PageController
             $this->redirect($routes, 'Homepage');
         }
     }
+
+    // displays the view of course that is connected to a student
     public function StudentCourseViewAction(RouteCollection $routes, $courseId)
     {
         if (PersonController::isLoggedInAs('student')) {
@@ -384,6 +411,8 @@ class PageController
             $this->redirect($routes, 'Homepage');
         }
     }
+
+    //this page shows the student the info of a page and the connected learningpoints and lessonmaterials
     public function StudentLessonAction(RouteCollection $routes, $lessonId)
     {
         if (PersonController::isLoggedInAs('student')) {
@@ -397,6 +426,8 @@ class PageController
             $this->redirect($routes, 'Homepage');
         }
     }
+
+    //displays all the lessons and exams of a student
     public function StudentAgendaAction(RouteCollection $routes)
     {
         if (PersonController::isLoggedInAs('student')) {
@@ -408,6 +439,7 @@ class PageController
         }
     }
 
+    //redirects to a different page
     public function redirect(Routecollection $routes, $pageName, int $id = 0)
     {
         $path = $routes->get($pageName)->getPath();

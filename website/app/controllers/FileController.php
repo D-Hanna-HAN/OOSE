@@ -17,6 +17,7 @@ class FileController
         }
     }
 
+    //converts files to pdf
     public function convertToPdf($filename)
     {
         //set dompdf path

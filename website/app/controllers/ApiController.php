@@ -6,6 +6,7 @@ class ApiController
 {
     private static $url = "http://localhost/schoolwebsites/OOSE/api/";
 
+    //creates a valid array to be send with the post or get request that contains the class function name and any additional parameters
     public static function formatRequest(string $class, string $functionName, $params = [])
     {
         $content = [
@@ -16,7 +17,7 @@ class ApiController
         return $content;
     }
 
-    //return type can be either json or class of the object that needs to be returned
+    //creates a get request to the api, return type can be either array or object
     public static function createGetRequest($request, $returnType = "array")
     {
         $options = array(
@@ -37,6 +38,7 @@ class ApiController
         }
     }
 
+    //creates a post request to the api, return type can be either array or object 
     public static function createPostRequest($request, $returnType = "array")
     {
         $options = array(
